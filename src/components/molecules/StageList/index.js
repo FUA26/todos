@@ -1,4 +1,5 @@
 import React from 'react'
+import ButtonAdd from '../../atoms/ButtonAdd'
 import TodoList from '../Todolist'
 import './stageList.scss'
 
@@ -9,7 +10,10 @@ const StageList = ({title, todos}) => {
             <div className="stage__title">
                 {title}
             </div>
-            {todos.map(todo => (<TodoList key={todo.id} title={todo.text}></TodoList>))}
+            <div className="stage_wrapper">
+            {todos.map(todo => (<TodoList key={todo.id} title={todo.title} des={todo.text}></TodoList>))}
+            <ButtonAdd></ButtonAdd>
+            </div>
             
         </div>
     )

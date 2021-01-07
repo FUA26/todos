@@ -5,12 +5,14 @@ const initialState =[
         todos:[
             {
                 id      : 0,
-                text    : "Test First Todo"
+                title   : "Test First Todo",
+                text    : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
 
             },
             {
                 id      : 1,
-                text    : "Test Second Todo"
+                title   : "Test Second Todo",
+                text    : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
 
             }
         ]
@@ -21,7 +23,8 @@ const initialState =[
         todos:[
             {
                 id      : 0,
-                text    : "mulai kerjakan"
+                title   : "Ready to do",
+                text    : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
 
             },
         ]
