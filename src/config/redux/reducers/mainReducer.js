@@ -1,8 +1,5 @@
 const initialState ={
     isLogin: false,
-    dataToDo: [],
-    dataDone:[],
-    modalOpen:false
   }
 
 const MainReducer = (state=initialState,action) =>{
