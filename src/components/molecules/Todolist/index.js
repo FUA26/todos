@@ -14,6 +14,7 @@ const useStyles = makeStyles({
 const TodoList = ({title,des}) => {
     const classes = useStyles()
     return (
+        <div>
         <Card className={classes.card}>
             <CardContent>
                 <div className="card__header">
@@ -23,6 +24,8 @@ const TodoList = ({title,des}) => {
                 <p>{des}</p>
             </CardContent>
         </Card>
+
+        </div>
     )
 }
 

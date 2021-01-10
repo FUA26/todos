@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import StageList from '../../components/molecules/StageList'
+import StageList from '../../components/organismes/StageList'
 import './mainPage.scss'
 
 

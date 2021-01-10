@@ -4,9 +4,9 @@ import { Add } from '@material-ui/icons';
 import './buttonAdd.scss';
 
 
-function ButtonAdd() {
+function ButtonAdd(props) {
     return (
-        <Card className="buttonAdd">
+        <Card className="buttonAdd" {...props}>
             <CardContent className="buttonAdd__content">
                 <Add></Add>
                 <Typography>
