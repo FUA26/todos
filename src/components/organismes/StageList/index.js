@@ -8,10 +8,7 @@ import './stageList.scss'
 
 function StageList(props) {
     const [openPopup, setOpenPopup] = useState(false)
-    
-    const { title, todos, ...other } = props
-
-    console.log(todos)
+    const { title, todos} = props
     return (
         <div className="stage">
             <div className="stage__title">

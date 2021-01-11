@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
-import MainReducer from "./mainReducer";
-import StageReducer from "./stageReducer";
+import mainReducer from "./mainReducer";
+import stageReducer from "./stageReducer";
 
 
 export default combineReducers({
-    main: MainReducer,
-    stage: StageReducer
+    mainReducer,
+    stageReducer
 });
