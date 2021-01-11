@@ -4,10 +4,12 @@ import Form from "../../atoms/Form";
 import TodoForm from "../../molecules/FormAddTodo";
 import Popup from "../../atoms/Popup";
 import './stageList.scss'
+import { useSelector } from 'react-redux';
 
 
 function StageList(props) {
     const [openPopup, setOpenPopup] = useState(false)
+    const {todoLogin} = useSelector(state =>state.mainReducer)
     const { title, todos} = props
     return (
         <div className="stage">
@@ -15,7 +17,7 @@ function StageList(props) {
                 {title}
             </div>
             <div className="stage_wrapper">
-            {todos.map(todo => (<TodoList key={todo.id} title={todo.title} des={todo.text}></TodoList>))}
+            {todoLogin ? <TodoList></TodoList>: todos.map(todo => (<TodoList key={todo.id} data={todo}></TodoList>))}
 
             <Form.Button
                 text="Add New"

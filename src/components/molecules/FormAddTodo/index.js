@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Grid, } from '@material-ui/core';
 import Controls from "../../atoms/Form";
 import { useForm, Form } from '../../atoms/Form/useForm';
+import API from '../../../services';
 
 
 const genderItems = [
     { id: '0', title: 'Male' },
     { id: '1', title: 'Female' },
     { id: '2', title: 'Other' },
+    { id: '3', title: 'Other 2' },
 ]
 
 const initialFValues = {
@@ -21,6 +23,8 @@ const initialFValues = {
 }
 
 export default function TodoForm(props) {
+
+    const { addOrEdit, recordForEdit } = props
 
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
@@ -38,6 +42,7 @@ export default function TodoForm(props) {
 
     const {
         values,
+        setValues,
         errors,
         setErrors,
         handleInputChange,
@@ -46,12 +51,20 @@ export default function TodoForm(props) {
 
     const handleSubmit = e => {
         e.preventDefault()
+
         if (validate()) {
             alert(JSON.stringify(values))
         }
     }
 
 
+    useEffect(() => {
+        if (recordForEdit != null)
+            setValues({
+                ...recordForEdit
+            })
+        console.log("Edit",recordForEdit)
+    }, [recordForEdit])
     return (
         <Form onSubmit={handleSubmit}>
             <Grid container spacing={3}>

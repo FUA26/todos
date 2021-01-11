@@ -1,6 +1,9 @@
 .stage{
-    width: 300px;
-    margin: 6px;
+    min-width: 400px;
+    margin: 6px;    
+    min-height: 64px;
+    cursor: pointer;
+
 }
 
 .stage__title{
