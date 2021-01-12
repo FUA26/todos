@@ -3,6 +3,7 @@ import { Grid, } from '@material-ui/core';
 import Controls from "../../atoms/Form";
 import { useForm, Form } from '../../atoms/Form/useForm';
 import API from '../../../services';
+import { connect, useSelector } from 'react-redux';
 
 
 const genderItems = [
@@ -13,17 +14,17 @@ const genderItems = [
 ]
 
 const initialFValues = {
-    id: 0,
+    id: 2,
     title: '',
     deskripsi: '',
     project: '',
     priority: '',
-    doDate: new Date(),
-    isPermanent: false,
+    doDate: new Date()
 }
 
-export default function TodoForm(props) {
-
+function TodoForm(props) {
+    const {form,isEdit,priority} = useSelector(state =>state.formTodoReducer)
+    // console.log(priority)
     const { addOrEdit, recordForEdit } = props
 
     const validate = (fieldValues = values) => {
@@ -47,8 +48,8 @@ export default function TodoForm(props) {
         setErrors,
         handleInputChange,
         resetForm
-    } = useForm(initialFValues, true, validate);
-
+    } = useForm(form, true, validate);
+    console.log("cek value",values)
     const handleSubmit = e => {
         e.preventDefault()
 
@@ -61,7 +62,13 @@ export default function TodoForm(props) {
     useEffect(() => {
         if (recordForEdit != null)
             setValues({
-                ...recordForEdit
+                ...initialFValues,
+                id: recordForEdit.id,
+                title: recordForEdit.title,
+                deskripsi: recordForEdit.des,
+                project: recordForEdit.id_project,
+                priority: recordForEdit.priority,
+                doDate: new Date()
             })
         console.log("Edit",recordForEdit)
     }, [recordForEdit])
@@ -93,7 +100,7 @@ export default function TodoForm(props) {
                         label="priority"
                         value={values.priority}
                         onChange={handleInputChange}
-                        options={genderItems}
+                        options={priority}
                         error={errors.priority}
                     />
                 </Grid>
@@ -132,3 +139,4 @@ export default function TodoForm(props) {
         </Form>
     )
 }
+export default connect()(TodoForm)
