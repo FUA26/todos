@@ -27,10 +27,8 @@ const TodoList = (todo) => {
     const handleChange = (item) => {
         setOpenPopup(true);
         setRecordForEdit(item)
-        console.log(item)
       };
     
-    console.log(todo)
     return (
         <div>
             {(todoLogin ? 
@@ -60,7 +58,7 @@ const TodoList = (todo) => {
                 setOpenPopup={setOpenPopup}
 
             >
-                <TodoForm recordForEdit={recordForEdit} />
+                <TodoForm recordForEdit={recordForEdit} isEdit={true} />
             </Popup>
 
         </div>

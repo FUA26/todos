@@ -1,7 +1,8 @@
 const initialState ={
     isLogin: false,
     todoLogin:true,
-    todoDatas:[]
+    todoDatas:[],
+    projectList:[]
   }
 
 const MainReducer = (state=initialState,action) =>{
@@ -12,10 +13,15 @@ const MainReducer = (state=initialState,action) =>{
             ...state,
             todoDatas:action.data
             }
+        case 'UPDATE_PROJECT_LIST':
+            return{
+            ...state,
+            projectList:action.data
+            }
         case 'UPDATE_LOADING':
             return{
             ...state,
-            todoLogin: !state.todoLogin
+            todoLogin: action.data
             }
         default:     
             return state

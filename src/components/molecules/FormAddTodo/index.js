@@ -3,29 +3,14 @@ import { Grid, } from '@material-ui/core';
 import Controls from "../../atoms/Form";
 import { useForm, Form } from '../../atoms/Form/useForm';
 import API from '../../../services';
-import { connect, useSelector } from 'react-redux';
-
-
-const genderItems = [
-    { id: '0', title: 'Male' },
-    { id: '1', title: 'Female' },
-    { id: '2', title: 'Other' },
-    { id: '3', title: 'Other 2' },
-]
-
-const initialFValues = {
-    id: 2,
-    title: '',
-    deskripsi: '',
-    project: '',
-    priority: '',
-    doDate: new Date()
-}
+import { connect, useSelector,useDispatch } from 'react-redux';
+import { setTodoDatas } from '../../../config/redux/actions';
 
 function TodoForm(props) {
-    const {form,isEdit,priority} = useSelector(state =>state.formTodoReducer)
-    // console.log(priority)
-    const { addOrEdit, recordForEdit } = props
+    const {form,priority} = useSelector(state =>state.formTodoReducer)
+    const {projectList} = useSelector(state =>state.mainReducer)
+    const dispatch = useDispatch()
+    const { addOrEdit,isEdit, recordForEdit } = props
 
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
@@ -49,28 +34,71 @@ function TodoForm(props) {
         handleInputChange,
         resetForm
     } = useForm(form, true, validate);
-    console.log("cek value",values)
+
     const handleSubmit = e => {
         e.preventDefault()
-
         if (validate()) {
-            alert(JSON.stringify(values))
+            
+            let payload = {
+                "projectID": values.project,
+                "title": values.title,
+                "des": values.deskripsi,
+                "doDate" :values.doDate,
+                "start" :"",
+                "end" :"",
+                "status" :"1",
+                "priority" :values.priority
+            }
+            console.log("Date",payload)
+            if (isEdit) {
+                payload.id=values.id
+                // console.log(payload)
+                API.postUpdateTodo(payload)
+                .then( result =>{
+                    dispatch(setTodoDatas(1))
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+            } else {
+                API.postAddTodo(payload)
+                .then( result =>{
+                    dispatch(setTodoDatas(1))
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+            }
+
         }
     }
 
+    const handleDelete = id => {
+            let payload = {
+                "id": id
+            }
+            console.log("Id :",payload)
+            API.deleteTodo(payload)
+            .then( result =>{
+                console.log("Delete :",result)
+                dispatch(setTodoDatas(1))
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+    }
 
     useEffect(() => {
         if (recordForEdit != null)
             setValues({
-                ...initialFValues,
                 id: recordForEdit.id,
                 title: recordForEdit.title,
                 deskripsi: recordForEdit.des,
                 project: recordForEdit.id_project,
                 priority: recordForEdit.priority,
-                doDate: new Date()
+                doDate: recordForEdit.do_date,
             })
-        console.log("Edit",recordForEdit)
     }, [recordForEdit])
     return (
         <Form onSubmit={handleSubmit}>
@@ -110,7 +138,7 @@ function TodoForm(props) {
                         label="project"
                         value={values.project}
                         onChange={handleInputChange}
-                        options={genderItems}
+                        options={projectList}
                         error={errors.project}
                     />
                     
@@ -118,9 +146,9 @@ function TodoForm(props) {
                 
                 <Grid item xs={6}>
                     <Controls.DatePicker
-                        name="hireDate"
-                        label="Hire Date"
-                        value={values.hireDate}
+                        name="doDate"
+                        label="Do Date"
+                        value={values.doDate}
                         onChange={handleInputChange}
                     />
                 </Grid>
@@ -129,6 +157,8 @@ function TodoForm(props) {
                         <Controls.Button
                             type="submit"
                             text="Submit"/>
+                        {(isEdit ? <Controls.Button color="secondary"
+                        text="Delete" onClick={() => { handleDelete(values.id) }}/>: "")}
                         <Controls.Button
                             text="Reset"
                             color="default"

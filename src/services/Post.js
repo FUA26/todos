@@ -1,16 +1,23 @@
 import axios from 'axios'
 import {URL} from './Config'
 
-const GET = (path, payload) =>{
+
+
+const POST = (path, payload) =>{
     const promise = new Promise((resolve,reject) =>{
-        axios.get(`${URL}/${path}`,payload)
+        axios.post(`${URL}/${path}`,payload,{
+            headers: {
+            'Content-Type': 'application/json'
+            }})
         .then((result)=>{
             resolve(result.data);
         },(err)=>{
+            console.log(err)
             reject(err)
         })
     })
     return promise
 }
 
-export default GET;
+
+export default POST;
