@@ -1,6 +1,6 @@
-import { Avatar, Box, Button, Divider, Drawer, Hidden, Icon, List, ListItem, makeStyles, Typography } from '@material-ui/core'
+import { Avatar, Box, Button, ClickAwayListener, Divider, Drawer, Hidden, Icon, List, ListItem, makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 
 
 const user = {
@@ -38,7 +38,14 @@ const user = {
 
 function Navbar({ onMobileClose, openMobile }) {
     const classes = useStyles();
-    console.log(openMobile)
+    const dispatch = useDispatch()
+    const {sidebarOpen} = useSelector(state =>state.mainReducer)
+
+    const handleDrawerClose = () => {
+      console.log('hittttt')
+      dispatch({type:"UPDATE_SIDEBAR",data:false})
+    };
+
     const content = (
         <Box
           height="100%"
@@ -98,29 +105,31 @@ function Navbar({ onMobileClose, openMobile }) {
       );
     return (
         <>
-        <Hidden lgUp>
-          <Drawer
-            anchor="left"
-            classes={{ paper: classes.mobileDrawer }}
-            onClose={onMobileClose}
-            open={openMobile}
-            variant="temporary"
-          >
-            {content}
-          </Drawer>
-        </Hidden>
-        <Hidden mdDown>
-          <Drawer
-            anchor="left"
-            open
-            variant="persistent"
-            classes={{ paper: classes.desktopDrawer }}
-          >
-            {content}
-          </Drawer>
-        </Hidden>
+          <Hidden lgUp>
+            <Drawer
+              anchor="left"
+              classes={{ paper: classes.mobileDrawer }}
+              onClose={handleDrawerClose}
+              open={sidebarOpen}
+              variant="temporary"
+            >
+              {content}
+              <Button onClick={handleDrawerClose}>sadsad</Button>
+            </Drawer>
+          </Hidden>
+  
+          <Hidden mdDown>
+            <Drawer
+              anchor="left"
+              open
+              variant="persistent"
+              classes={{ paper: classes.desktopDrawer }}
+            >
+              {content}
+            </Drawer>
+          </Hidden>
         </>
     )
 }
 
-export default connect()(Navbar)
+export default Navbar

@@ -1,9 +1,10 @@
-import { makeStyles, Paper } from '@material-ui/core'
+import { ClickAwayListener, makeStyles, Paper } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import { connect,useSelector,useDispatch} from 'react-redux'
+import { setProjectList, setTodoDatas } from '../../config/redux/actions'
 import Header from '../../components/organismes/Header'
 import Navbar from '../../components/organismes/Navbar'
-import { setProjectList, setTodoDatas } from '../../config/redux/actions'
+import {  } from '../../config/redux/actions'
 import './dashboard.scss'
 
 const useStyles = makeStyles((theme) => ({
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
       display: 'flex',
       flex: '1 1 auto',
       overflow: 'hidden',
-      paddingTop: 20,
+      paddingTop: 64,
       [theme.breakpoints.up('lg')]: {
         paddingLeft: 256
       }
@@ -31,28 +32,33 @@ const useStyles = makeStyles((theme) => ({
     content: {
       flex: '1 1 auto',
       height: '100%',
-      overflow: 'auto'
+      overflow: 'auto',
+      padding: 20
+
     }
   }));
 
 
 const Dashboard = (props) =>{
     const {children} = props;
-    const {todoDatas, todoLogin} = useSelector(state =>state.mainReducer)
-    const [isMobileNavOpen, setMobileNavOpen] = useState(false);
+    const classes = useStyles();
     const dispatch = useDispatch()
     useEffect(() => {
+      console.log('Load Awal 1')
          dispatch(setTodoDatas(1))
          dispatch(setProjectList())
     }, [dispatch])
-    const classes = useStyles();
+    const handleDrawerClose = () => {
+      console.log('hittttt Close')
+      dispatch({type:"UPDATE_SIDEBAR",data:false})
+    };
     return (
         <div>
-            <Header onMobileNavOpen={() => setMobileNavOpen(true)}/>
-            <Navbar
-              onMobileClose={() => setMobileNavOpen(false)}
-              openMobile={isMobileNavOpen}
-            />
+            <Header/>
+            
+        <ClickAwayListener onClickAway={handleDrawerClose}>
+            <Navbar/>
+        </ClickAwayListener>
             <div className={classes.wrapper}>
                 <div className={classes.contentContainer}>
                     <div className={classes.content}>
@@ -64,13 +70,6 @@ const Dashboard = (props) =>{
             </div>
             
       </div>
-        // <div>
-        //     <Header></Header>
-        //     <Navbar></Navbar>
-            // <div className="StageWrapper">
-            //     {todoLogin ? <StageList className="items"></StageList> :  todoDatas.map(list =>(<StageList key={list.id} title={list.title} todos={list.todos} className="items"></StageList>))}
-            // </div>
-        // </div>
     )
 }
 

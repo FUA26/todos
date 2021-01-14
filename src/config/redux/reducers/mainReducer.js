@@ -2,7 +2,8 @@ const initialState ={
     isLogin: false,
     todoLogin:true,
     todoDatas:[],
-    projectList:[]
+    projectList:[],
+    sidebarOpen:false,
   }
 
 const MainReducer = (state=initialState,action) =>{
@@ -22,6 +23,11 @@ const MainReducer = (state=initialState,action) =>{
             return{
             ...state,
             todoLogin: action.data
+            }
+        case 'UPDATE_SIDEBAR':
+            return{
+            ...state,
+            sidebarOpen: action.data
             }
         default:     
             return state

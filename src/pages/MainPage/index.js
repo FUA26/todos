@@ -39,6 +39,7 @@ const MainPage = () =>{
     const {todoDatas, todoLogin} = useSelector(state =>state.mainReducer)
     const dispatch = useDispatch()
     useEffect(() => {
+      console.log('Load Awal 1')
          dispatch(setTodoDatas(1))
          dispatch(setProjectList())
     }, [dispatch])
@@ -49,7 +50,5 @@ const MainPage = () =>{
       </div>
     )
 }
-
-
 
 export default (MainPage)
