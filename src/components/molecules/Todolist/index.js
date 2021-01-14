@@ -56,7 +56,6 @@ const TodoList = (todo) => {
                 title="Edit task"
                 openPopup={openPopup}
                 setOpenPopup={setOpenPopup}
-
             >
                 <TodoForm recordForEdit={recordForEdit} isEdit={true} />
             </Popup>

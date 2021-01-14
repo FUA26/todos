@@ -1,11 +1,12 @@
 import { Avatar, Box, Button, Divider, Drawer, Hidden, Icon, List, ListItem, makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
+import { connect } from 'react-redux';
 
 
 const user = {
     avatar: '/static/images/avatars/avatar_6.png',
-    jobTitle: 'Senior Developer',
-    name: 'Katarina Smith'
+    jobTitle: 'Web Developer',
+    name: 'Fatih Ulil A'
   };
   
   const items = [
@@ -17,30 +18,6 @@ const user = {
       href: '/app/customers',
       title: 'Customers'
     },
-    {
-      href: '/app/products',
-      title: 'Products'
-    },
-    {
-      href: '/app/account',
-      title: 'Account'
-    },
-    {
-      href: '/app/settings',
-      title: 'Settings'
-    },
-    {
-      href: '/login',
-      title: 'Login'
-    },
-    {
-      href: '/register',
-      title: 'Register'
-    },
-    {
-      href: '/404',
-      title: 'Error'
-    }
   ];
   
   const useStyles = makeStyles(() => ({
@@ -59,8 +36,9 @@ const user = {
     }
   }));
 
-function Navbar() {
+function Navbar({ onMobileClose, openMobile }) {
     const classes = useStyles();
+    console.log(openMobile)
     const content = (
         <Box
           height="100%"
@@ -116,57 +94,33 @@ function Navbar() {
               ))}
             </List>
           </Box>
-          <Box flexGrow={1} />
-          <Box
-            p={2}
-            m={2}
-            bgcolor="background.dark"
-          >
-            <Typography
-              align="center"
-              gutterBottom
-              variant="h4"
-            >
-              Need more?
-            </Typography>
-            <Typography
-              align="center"
-              variant="body2"
-            >
-              Upgrade to PRO version and access 20 more screens
-            </Typography>
-            <Box
-              display="flex"
-              justifyContent="center"
-              mt={2}
-            >
-              <Button
-                color="primary"
-                component="a"
-                href="https://react-material-kit.devias.io"
-                variant="contained"
-              >
-                See PRO version
-              </Button>
-            </Box>
-          </Box>
         </Box>
       );
     return (
         <>
-      <Hidden mdDown>
-        <Drawer
-          anchor="left"
-          open
-          variant="persistent"
-          classes={{ paper: classes.desktopDrawer }}
-
-        >
-          {content}
-        </Drawer>
-      </Hidden>
+        <Hidden lgUp>
+          <Drawer
+            anchor="left"
+            classes={{ paper: classes.mobileDrawer }}
+            onClose={onMobileClose}
+            open={openMobile}
+            variant="temporary"
+          >
+            {content}
+          </Drawer>
+        </Hidden>
+        <Hidden mdDown>
+          <Drawer
+            anchor="left"
+            open
+            variant="persistent"
+            classes={{ paper: classes.desktopDrawer }}
+          >
+            {content}
+          </Drawer>
+        </Hidden>
         </>
     )
 }
 
-export default Navbar
+export default connect()(Navbar)
