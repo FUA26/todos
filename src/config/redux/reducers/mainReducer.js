@@ -4,6 +4,7 @@ const initialState ={
     todoDatas:[],
     projectList:[],
     sidebarOpen:false,
+    userData:{}
   }
 
 const MainReducer = (state=initialState,action) =>{
@@ -28,6 +29,11 @@ const MainReducer = (state=initialState,action) =>{
             return{
             ...state,
             sidebarOpen: action.data
+            }
+        case 'UPDATE_USER':
+            return{
+            ...state,
+            userData: action.data
             }
         default:     
             return state

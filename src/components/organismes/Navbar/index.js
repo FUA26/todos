@@ -1,22 +1,20 @@
-import { Avatar, Box, Button, ClickAwayListener, Divider, Drawer, Hidden, Icon, List, ListItem, makeStyles, Typography } from '@material-ui/core'
-import React from 'react'
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { Avatar, Box, Button,  Divider, Drawer, Hidden, Icon, List, ListItem, makeStyles, Typography } from '@material-ui/core'
+import React, { useEffect } from 'react'
+import {  useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { setLogout } from '../../../config/redux/actions/loginAction';
 
 
-const user = {
-    avatar: '/static/images/avatars/avatar_6.png',
-    jobTitle: 'Web Developer',
-    name: 'Fatih Ulil A'
-  };
+
   
   const items = [
     {
-      href: '/app/dashboard',
+      href: '/',
       title: 'Dashboard'
     },
     {
-      href: '/app/customers',
-      title: 'Customers'
+      href: '/todo',
+      title: 'Todo List'
     },
   ];
   
@@ -40,12 +38,17 @@ function Navbar({ onMobileClose, openMobile }) {
     const classes = useStyles();
     const dispatch = useDispatch()
     const {sidebarOpen} = useSelector(state =>state.mainReducer)
+    const {userData} = useSelector(state =>state.mainReducer)
+
+    let history = useHistory();
+    const logOut =  () => {
+      dispatch(setLogout())
+      history.replace("/login");
+  };
 
     const handleDrawerClose = () => {
-      console.log('hittttt')
       dispatch({type:"UPDATE_SIDEBAR",data:false})
     };
-
     const content = (
         <Box
           height="100%"
@@ -60,7 +63,7 @@ function Navbar({ onMobileClose, openMobile }) {
           >
             <Avatar
               className={classes.avatar}
-              src={user.avatar}
+              // src={user.avatar}
               to="/app/account"
             />
             <Typography
@@ -68,21 +71,25 @@ function Navbar({ onMobileClose, openMobile }) {
               color="textPrimary"
               variant="h5"
             >
-              {user.name}
+              {userData.nama}
             </Typography>
             <Typography
               color="textSecondary"
               variant="body2"
             >
-              {user.jobTitle}
+              {/* {user.jobTitle} */}
             </Typography>
+            
+          <Hidden lgUp>
+            <Button onClick={logOut}>Logout</Button>
+          </Hidden>
           </Box>
           <Divider />
           <Box p={2}>
             <List>
               {items.map((item) => (
                     <ListItem
-                    disableGutters
+                    disableGutters key={item.href}
                   >
                     <Button
                       

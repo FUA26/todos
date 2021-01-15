@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Grid, } from '@material-ui/core';
 import Controls from "../../atoms/Form";
 import { useForm, Form } from '../../atoms/Form/useForm';
-import API from '../../../services';
-import { useSelector,useDispatch } from 'react-redux';
-import { setTodoDatas } from '../../../config/redux/actions';
-import { AES, enc } from 'crypto-js';
+import { useDispatch } from 'react-redux';
+
+import { setLogin } from '../../../config/redux/actions/loginAction';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const initialValues ={
     email: "",
@@ -13,8 +13,11 @@ const initialValues ={
 }
 
 function LoginForm(props) {
-
     const dispatch = useDispatch()
+    let history = useHistory();
+    let location = useLocation();
+  
+
 
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
@@ -30,34 +33,24 @@ function LoginForm(props) {
 
     const {
         values,
-        setValues,
         errors,
         setErrors,
         handleInputChange,
-        resetForm
     } = useForm(initialValues, true, validate);
 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault()
         if (validate()) {
             let payload = {
                 "email": values.email,
                 "password": values.password,
             }
-            API.postLogin(payload)
-            .then( result =>{
-                // console.log("Data dari API: ",result)
-                var ciphertext = AES.encrypt(JSON.stringify(result.data), 'secret key 123').toString();
-                // console.log(ciphertext)
-                sessionStorage.setItem('todoUser', ciphertext);
-                // var bytes  = AES.decrypt(ciphertext, 'secret key 123');
-                // var decryptedData = JSON.parse(bytes.toString(enc.Utf8));
-                // console.log(decryptedData)
-            })
-            .catch(error => {
-                console.log(error)
-            })
-
+            let login = await dispatch(setLogin(payload)).catch(err => err)
+            // console.log(login)
+            if (login) {
+                let { from } = location.state || { from: { pathname: "/" } };
+                history.replace(from);
+            }
         }
     }
 

@@ -1,34 +1,50 @@
-import React from 'react';
+import { AES, enc } from 'crypto-js';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { 
     Route,
     Redirect
 } from 'react-router-dom'
+import { updateUser } from '../config/redux/actions/loginAction';
 
-const checkAuth= () =>{
-    var session = sessionStorage.getItem("todoUser")
-    // console.log("Session",session)
-    if (session !=null) {
-        return true
-    }
-    return false
+function getStorage() {
+    var ciphertext = localStorage.getItem("todoUser")
+    var bytes  = AES.decrypt(ciphertext, 'secret key 123');
+    var decryptedData = JSON.parse(bytes.toString(enc.Utf8));
+    return decryptedData
 }
 
-const AuthenticationRoute = ({children, ...rest}) => (
-    <Route
-      {...rest}
-      render={({ location }) =>
-      checkAuth() ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: location }
-            }}
-          />
-        )
-      }
-    />
-)
+function AuthenticationRoute({children, ...rest}){
+    const dispatch = useDispatch()
+
+    const checkAuth= () =>{
+        var session = localStorage.getItem("todoUser")
+        console.log(session)
+        if (session !=null) {
+            dispatch(updateUser(getStorage()))
+            return true
+        }
+        return false
+    }
+
+    return(
+        <Route
+        {...rest}
+        render={({ location }) =>
+        checkAuth() ? (
+            children
+            ) : (
+            <Redirect
+                to={{
+                pathname: "/login",
+                state: { from: location }
+                }}
+            />
+            )
+        }
+        />
+    )
+}
+
 
 export default AuthenticationRoute

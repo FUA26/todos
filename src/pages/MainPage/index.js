@@ -1,4 +1,4 @@
-import { makeStyles, Paper } from '@material-ui/core'
+
 import React, { useEffect } from 'react'
 import {useSelector,useDispatch} from 'react-redux'
 import StageList from '../../components/organismes/StageList'
@@ -12,7 +12,6 @@ const MainPage = () =>{
     const {todoDatas, todoLogin} = useSelector(state =>state.mainReducer)
     const dispatch = useDispatch()
     useEffect(() => {
-      console.log('Load Awal 1')
          dispatch(setTodoDatas(1))
          dispatch(setProjectList())
     }, [dispatch])

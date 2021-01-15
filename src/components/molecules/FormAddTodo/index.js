@@ -10,7 +10,7 @@ function TodoForm(props) {
     const {form,priority} = useSelector(state =>state.formTodoReducer)
     const {projectList} = useSelector(state =>state.mainReducer)
     const dispatch = useDispatch()
-    const { addOrEdit,isEdit, recordForEdit } = props
+    const { isEdit, recordForEdit } = props
 
     const validate = (fieldValues = values) => {
         let temp = { ...errors }

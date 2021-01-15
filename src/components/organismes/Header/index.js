@@ -1,4 +1,4 @@
-import { AppBar, Badge, Box, Button, Hidden, IconButton, makeStyles, Toolbar, Typography } from '@material-ui/core'
+import { AppBar, Badge, Box,  Hidden, IconButton, makeStyles, Toolbar } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
@@ -6,6 +6,8 @@ import React, { useEffect } from 'react'
 import Logo from '../../atoms/Logo';
 import { fullLogoAlt } from '../../../assets';
 import { useDispatch } from 'react-redux';
+import { setLogin, setLogout } from '../../../config/redux/actions/loginAction';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(() => ({
     header: {
@@ -20,8 +22,12 @@ const useStyles = makeStyles(() => ({
 function Header(props) {
     const classes = useStyles();
     const dispatch = useDispatch()
+    let history = useHistory();
+    const logOut =  () => {
+        dispatch(setLogout())
+        history.replace("/login");
+    };
     const handleDrawerClose = () => {
-        console.log('hittttt')
         dispatch({type:"UPDATE_SIDEBAR",data:true})
       };
     useEffect(() => {
@@ -40,7 +46,8 @@ function Header(props) {
                     <NotificationsIcon />
                     </Badge>
                 </IconButton>
-                <IconButton color="inherit">
+                <IconButton color="inherit" 
+                    onClick={logOut}>
                     <InputIcon />
                 </IconButton>
                 </Hidden>

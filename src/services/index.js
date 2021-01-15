@@ -1,4 +1,4 @@
-import DELETE from './Delete'
+
 import GET from './Get'
 import POST from './Post'
 
