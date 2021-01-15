@@ -2,6 +2,9 @@ import DELETE from './Delete'
 import GET from './Get'
 import POST from './Post'
 
+//AUTH
+const postLogin = (data) => POST('/login',data)
+
 
 //GET
 const getTodos = (data) => GET('todo/get-todo',data)
@@ -19,7 +22,8 @@ const API = {
     getProjectList,
     postAddTodo,
     deleteTodo,
-    postUpdateTodo
+    postUpdateTodo,
+    postLogin
 }
 
 export default API;

@@ -1,7 +1,9 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Dashboard from '../layout/Dashboard'
+import Login from '../pages/Login'
 import MainPage from '../pages/MainPage'
+import AuthenticationRoute from './auth-router'
 
 
 
@@ -9,15 +11,15 @@ import MainPage from '../pages/MainPage'
 const Routes = () => {
     return (
         <Router>
-            <Switch>
-                    <Route path="/" exact>
-                        <Dashboard>
-                                    <MainPage></MainPage>
-                        </Dashboard>
-                    </Route>
-                <Route path="/test">
-                            <MainPage></MainPage>
+                <Route exact path="/login">
+                    <Login></Login>
                 </Route>
+            <Switch>
+                <AuthenticationRoute path="/" exact>
+                    <Dashboard>
+                        <MainPage></MainPage>
+                    </Dashboard>
+                </AuthenticationRoute>
             </Switch>
         </Router>
     )

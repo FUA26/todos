@@ -114,7 +114,6 @@ function Navbar({ onMobileClose, openMobile }) {
               variant="temporary"
             >
               {content}
-              <Button onClick={handleDrawerClose}>sadsad</Button>
             </Drawer>
           </Hidden>
   
