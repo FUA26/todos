@@ -1,88 +1,71 @@
 import React from 'react'
-import { Grid, } from '@material-ui/core';
-import Controls from "../../atoms/Form";
-import { useForm, Form } from '../../atoms/Form/useForm';
-import { useDispatch } from 'react-redux';
-
+import { useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
+import { Form } from '../../atoms/Forms/Form';
+import { Input } from '../../atoms/Forms/Input';
+import { PrimaryButton } from '../../atoms/Forms/PrimaryButton';
+import { useDispatch, useSelector } from 'react-redux';
 import { setLogin } from '../../../config/redux/actions/loginAction';
 import { useHistory, useLocation } from 'react-router-dom';
 
-const initialValues ={
-    email: "",
-    password: ""
-}
 
-function LoginForm(props) {
-    const dispatch = useDispatch()
-    let history = useHistory();
-    let location = useLocation();
+const schema = yup.object().shape({
+    email: yup
+      .string()
+      .email("Email tidak sesuai format!")
+      .required("Email harus diisi!"),
+  });
   
 
-
-    const validate = (fieldValues = values) => {
-        let temp = { ...errors }
-        if ('email' in fieldValues)
-            temp.email = fieldValues.email ? "" : "This field is required."
-        setErrors({
-            ...temp
-        })
-
-        if (fieldValues === values)
-            return Object.values(temp).every(x => x === "")
-    }
-
-    const {
-        values,
-        errors,
-        setErrors,
-        handleInputChange,
-    } = useForm(initialValues, true, validate);
-
-    const handleSubmit = async e => {
-        e.preventDefault()
-        if (validate()) {
-            let payload = {
-                "email": values.email,
-                "password": values.password,
-            }
-            let login = await dispatch(setLogin(payload)).catch(err => err)
-            // console.log(login)
-            if (login) {
-                let { from } = location.state || { from: { pathname: "/" } };
-                history.replace(from);
-            }
+function LoginForm(props) {
+    const {datalogin} = useSelector(state => state.formLoginReducer)
+     const dispatch = useDispatch()
+     
+    let history = useHistory();
+    let location = useLocation();
+    const { register, handleSubmit, errors } = useForm({
+        defaultValues: { email: datalogin.email, password: datalogin.password },
+        mode: "onBlur",
+        resolver: yupResolver(schema),
+      });
+    
+      const onSubmit = async data => {
+        let payload = {
+            "email": data.email,
+            "password": data.password,
         }
-    }
-
-    return (
-        <Form onSubmit={handleSubmit}>
-            <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    <Controls.Input
-                        name="email"
-                        label="email"
-                        value={values.email}
-                        onChange={handleInputChange}
-                        error={errors.email}
-                    />
-                    <Controls.Input
-                        label="password"
-                        name="password"
-                        type="password"
-                        value={values.password}
-                        onChange={handleInputChange}
-                    />
-
-                </Grid>
-                <Grid item xs={12}>
-                    <div>
-                        <Controls.Button
-                            type="submit"
-                            text="Submit"/>
-                    </div>
-                </Grid>
-            </Grid>
-        </Form>
-    )
+        let login = await dispatch(setLogin(payload)).catch(err => err)
+        // console.log(login)
+        if (login) {
+            let { from } = location.state || { from: { pathname: "/" } };
+            history.replace(from);
+        }
+      };
+    
+      return (
+        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Input
+          ref={register}
+          id="v"
+          type="text"
+          label="Email"
+          name="email"
+          error={!!errors.email}
+          helperText={errors?.email?.message}
+        />
+        <Input
+          ref={register}
+          id="password"
+          type="password"
+          label="Password"
+          name="password"
+          error={!!errors.password}
+          helperText={errors?.password?.message}
+        />
+        
+        <PrimaryButton>Next</PrimaryButton>
+      </Form>
+      );
 }
 export default LoginForm

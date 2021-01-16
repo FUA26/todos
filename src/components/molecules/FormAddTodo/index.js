@@ -38,7 +38,6 @@ function TodoForm(props) {
     const handleSubmit = e => {
         e.preventDefault()
         if (validate()) {
-            
             let payload = {
                 "projectID": values.project,
                 "title": values.title,

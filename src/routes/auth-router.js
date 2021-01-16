@@ -18,7 +18,7 @@ function AuthenticationRoute({children, ...rest}){
     const dispatch = useDispatch()
 
     const checkAuth= () =>{
-        var session = localStorage.getItem("todoUser")
+        var session = sessionStorage.getItem("todoUser")
         console.log(session)
         if (session !=null) {
             dispatch(updateUser(getStorage()))

@@ -7,7 +7,7 @@ export const setLogin1 =(payload) =>{
         .then( result =>{
             if (result.code === '00') {
                 var ciphertext = AES.encrypt(JSON.stringify(result.data), 'secret key 123').toString();
-                localStorage.setItem('todoUser', ciphertext);
+                sessionStorage.setItem('todoUser', ciphertext);
                 let dataPayload = result.data
                 dispatch({type:'UPDATE_USER',data:dataPayload})
             }
@@ -25,7 +25,7 @@ export const setLogin =(payload) =>(dispatch)=>{
             console.log(result)
             if (result.code === '00') {
                 var ciphertext = AES.encrypt(JSON.stringify(result.data), 'secret key 123').toString();
-                localStorage.setItem('todoUser', ciphertext);
+                sessionStorage.setItem('todoUser', ciphertext);
                 let dataPayload = result.data
                 dispatch({type:'UPDATE_USER',data:dataPayload})
                 resolve(true)
@@ -44,7 +44,7 @@ export const setLogout =() =>{
     return(dispatch)=>{
         var data=[]
         dispatch({type:'UPDATE_USER',data:data})
-        localStorage.removeItem("todoUser");
+        sessionStorage.removeItem("todoUser");
     }
 }
 
