@@ -14,7 +14,7 @@ const schema = yup.object().shape({
     email: yup
       .string()
       .email("Email tidak sesuai format!")
-      .required("Email harus diisi!"),
+      .required("Email harus diisi!")
   });
   
 
@@ -23,7 +23,7 @@ function LoginForm(props) {
      const dispatch = useDispatch()
     let history = useHistory();
     let location = useLocation();
-    const { register, handleSubmit, errors } = useForm({
+    const { register, handleSubmit, errors, control } = useForm({
         defaultValues: { email: datalogin.email, password: datalogin.password },
         mode: "onBlur",
         resolver: yupResolver(schema),

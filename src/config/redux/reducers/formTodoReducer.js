@@ -19,9 +19,10 @@ const FormTodoReducer = (state=initialState,action) =>{
     switch (action.type) {
     //untuk isert data from
         case 'UPDATE_DATA_FORM':
+            console.log('hitttt',action.data)
             return{
             ...state,
-            todoDatas:action.data
+            form:action.data
             }
         case 'UPDATE_ISEDIT':
             return{

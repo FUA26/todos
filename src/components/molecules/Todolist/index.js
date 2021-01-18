@@ -23,10 +23,18 @@ const TodoList = (todo) => {
     const classes = useStyles()
     const [openPopup, setOpenPopup] = useState(false)
     const {todoLogin} = useSelector(state =>state.mainReducer)
+    const {UPDATE_DATA_FORM} = useSelector(state =>state.formTodoReducer)
     const [recordForEdit, setRecordForEdit] = useState(null)
     const handleChange = (item) => {
         setOpenPopup(true);
-        setRecordForEdit(item)
+        setRecordForEdit({
+            id: item.id,
+            title: item.title,
+            deskripsi: item.des,
+            project: item.id_project,
+            priority: item.priority,
+            doDate: item.do_date,
+        })
       };
     
     return (
