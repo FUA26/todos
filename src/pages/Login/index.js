@@ -2,6 +2,8 @@ import React from 'react'
 import { fullLogo } from '../../assets'
 import Logo from '../../components/atoms/Logo'
 import LoginForm from '../../components/molecules/FormLogin'
+
+import { ToastContainer } from 'react-toastify-redux';
 import './login.scss'
 
 function Login() {
@@ -21,6 +23,8 @@ function Login() {
                 {/* <SliderLogin></SliderLogin> */}
                 
             </div>
+            
+            <ToastContainer  />
         </div>
     )
 }

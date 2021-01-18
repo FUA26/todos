@@ -8,7 +8,7 @@ import { PrimaryButton } from '../../atoms/Forms/PrimaryButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLogin } from '../../../config/redux/actions/loginAction';
 import { useHistory, useLocation } from 'react-router-dom';
-
+ 
 
 const schema = yup.object().shape({
     email: yup
@@ -21,7 +21,6 @@ const schema = yup.object().shape({
 function LoginForm(props) {
     const {datalogin} = useSelector(state => state.formLoginReducer)
      const dispatch = useDispatch()
-     
     let history = useHistory();
     let location = useLocation();
     const { register, handleSubmit, errors } = useForm({
@@ -36,7 +35,6 @@ function LoginForm(props) {
             "password": data.password,
         }
         let login = await dispatch(setLogin(payload)).catch(err => err)
-        // console.log(login)
         if (login) {
             let { from } = location.state || { from: { pathname: "/" } };
             history.replace(from);

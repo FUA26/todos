@@ -18,20 +18,22 @@ function StageList(props) {
             </div>
             <div className="stage_wrapper">
             {todoLogin ? <TodoList></TodoList>: todos.map(todo => (<TodoList key={todo.id} data={todo}></TodoList>))}
+            {title === "Backlog" ?             
+            <>
+                <Form.Button
+                    text="Add New"
+                    variant="outlined"
+                    onClick={() => { setOpenPopup(true);}}
+                />
 
-            <Form.Button
-                text="Add New"
-                variant="outlined"
-                onClick={() => { setOpenPopup(true);}}
-            />
-
-            <Popup
-                title={title}
-                openPopup={openPopup}
-                setOpenPopup={setOpenPopup}
-            >
-                <TodoForm />
-            </Popup>
+                <Popup
+                    title={title}
+                    openPopup={openPopup}
+                    setOpenPopup={setOpenPopup}
+                >
+                    <TodoForm />
+                </Popup>
+            </>:""}
 
             </div>
         </div>

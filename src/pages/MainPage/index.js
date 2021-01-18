@@ -15,9 +15,15 @@ const MainPage = () =>{
          dispatch(setTodoDatas(1))
          dispatch(setProjectList())
     }, [dispatch])
+    // console.log(todoDatas)
     return (
         <div className="StageWrapper">
-            {todoLogin ? <StageList className="items"></StageList> :  todoDatas.map(list =>(<StageList key={list.id} title={list.title} todos={list.todos} className="items"></StageList>))}
+            {todoLogin ? 
+                <StageList className="items"></StageList>
+                 :  
+                todoDatas.map(list =>(
+                <StageList key={list.id} title={list.title} todos={list.todos} className="items"></StageList>
+                ))}
         </div>
     )
 }

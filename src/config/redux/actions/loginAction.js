@@ -1,5 +1,6 @@
 import { AES } from "crypto-js";
 import API from "../../../services"
+import {dismiss, update, error, message, warning, success, info} from 'react-toastify-redux'
 
 export const setLogin1 =(payload) =>{
     return(dispatch)=>{
@@ -22,19 +23,21 @@ export const setLogin =(payload) =>(dispatch)=>{
     return new Promise((resolve, reject)=>{
         API.postLogin(payload)
         .then( result =>{
-            console.log(result)
             if (result.code === '00') {
                 var ciphertext = AES.encrypt(JSON.stringify(result.data), 'secret key 123').toString();
                 sessionStorage.setItem('todoUser', ciphertext);
                 let dataPayload = result.data
                 dispatch({type:'UPDATE_USER',data:dataPayload})
                 resolve(true)
+            }else{
+                dispatch(error(result.message));
+                reject(false)
             }
-            reject(false)
+            
         })
         .catch(error => {
             console.log(error)
-            reject(false)
+            reject(error)
         })
     })
 }
