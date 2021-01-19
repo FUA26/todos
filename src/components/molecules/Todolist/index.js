@@ -33,7 +33,7 @@ const TodoList = (todo) => {
             deskripsi: item.des,
             project: item.id_project,
             priority: item.priority,
-            doDate: item.do_date,
+            doDate: new Date(item.do_date).toLocaleDateString('en-GB'),
         })
       };
     

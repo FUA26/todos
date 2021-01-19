@@ -5,7 +5,7 @@ import * as yup from "yup";
 import { Form } from '../../atoms/Forms/Form';
 import { Input } from '../../atoms/Forms/Input';
 import { PrimaryButton } from '../../atoms/Forms/PrimaryButton';
-import { DatePicker }  from '../../atoms/Forms/DatePicker';
+import DatePicker  from '../../atoms/Forms/DatePicker';
 import { Grid } from '@material-ui/core';
 import  Select  from '../../atoms/Forms/Select';
 import { useSelector } from 'react-redux';
@@ -22,20 +22,21 @@ const schema = yup.object().shape({
   
 
 function TodoForm(props) {
-    const { recordForEdit } = props
+    const { recordForEdit,isEdit } = props
     const {priority} = useSelector(state =>state.formTodoReducer)
-    const { register, errors, handleSubmit, clearError } = useForm({
+    const { register, errors, handleSubmit } = useForm({
         defaultValues: recordForEdit,
         mode: "onBlur",
         resolver: yupResolver(schema),
       });
-      const properties = {
+    const properties = {
         register,
         errors,
-        clearError,
         schema,
       };
-    console.log(errors)
+    const toDay = new Date().toDateString()
+  
+    // console.log(recordForEdit.doDate)
       const onSubmit = data => {
           console.log(data)
         // let payload = {
@@ -76,19 +77,21 @@ function TodoForm(props) {
                 </Grid>
                 <Grid item xs={6}>
                   <DatePicker
-                    ref={register}
                     properties={properties}
-                    field="calendar"
-                    label="Calendar"
-                    defaultValue={recordForEdit ? recordForEdit.doDate : new Date() }
+                    field="doDate"
+                    label="Do Date"
+                    defaultValue= {isEdit? new Date(recordForEdit.doDate).toDateString() : toDay}
                   />
                 </Grid>
+                
+                <Grid item xs={6}>
                 <Select
                   properties={properties}
                   field="priority"
                   label="priority"
                   options={priority}
                 ></Select>
+                </Grid>
                 <Grid item xs={12}>
                     <PrimaryButton>Next</PrimaryButton>
                 </Grid>
