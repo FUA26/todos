@@ -7,10 +7,15 @@ import { Input } from '../../atoms/Forms/Input';
 import { PrimaryButton } from '../../atoms/Forms/PrimaryButton';
 import { DatePicker }  from '../../atoms/Forms/DatePicker';
 import { Grid } from '@material-ui/core';
+import  Select  from '../../atoms/Forms/Select';
+import { useSelector } from 'react-redux';
  
 
 const schema = yup.object().shape({
     title: yup
+      .string()
+      .required("Email harus diisi!"),
+      priority: yup
       .string()
       .required("Email harus diisi!")
   });
@@ -18,7 +23,8 @@ const schema = yup.object().shape({
 
 function TodoForm(props) {
     const { recordForEdit } = props
-    const { register, handleSubmit, errors, clearError } = useForm({
+    const {priority} = useSelector(state =>state.formTodoReducer)
+    const { register, errors, handleSubmit, clearError } = useForm({
         defaultValues: recordForEdit,
         mode: "onBlur",
         resolver: yupResolver(schema),
@@ -29,8 +35,8 @@ function TodoForm(props) {
         clearError,
         schema,
       };
-    console.log(recordForEdit)
-      const onSubmit = async data => {
+    console.log(errors)
+      const onSubmit = data => {
           console.log(data)
         // let payload = {
         //     "email": data.email,
@@ -77,7 +83,12 @@ function TodoForm(props) {
                     defaultValue={recordForEdit ? recordForEdit.doDate : new Date() }
                   />
                 </Grid>
-                
+                <Select
+                  properties={properties}
+                  field="priority"
+                  label="priority"
+                  options={priority}
+                ></Select>
                 <Grid item xs={12}>
                     <PrimaryButton>Next</PrimaryButton>
                 </Grid>
