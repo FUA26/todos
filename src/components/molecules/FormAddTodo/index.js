@@ -42,44 +42,59 @@ function TodoForm(props) {
         schema,
       };
     const toDay = format(new Date(), "yyyy-MM-dd'T'HH:mm:ssxxx")
-    console.log(recordForEdit)
+
     const onSubmit =async data => {
         // console.log(data)
-        let payload = {
-          "projectID": data.project,
-          "title": data.title,
-          "des": data.deskripsi,
-          "doDate" : data.doDate,
-          "start" :"",
-          "end" :"",
-          "status" :data.status,
-          "priority" :data.priority
-        }
-        // console.log("Date",payload)
-        if (isEdit) {
-            payload.id=recordForEdit.id
-            await API.postUpdateTodo(payload)
-            .then( result =>{
-                dispatch(setTodoDatas(1))
-            })
-            .catch(error => {
-                console.log(error)
-            })
-        } else {
-            await API.postAddTodo(payload)
-            .then( result =>{
-                dispatch(setTodoDatas(1))
-            })
-            .catch(error => {
-                console.log(error)
-            })
-        }
+      let payload = {
+        "projectID": data.project,
+        "title": data.title,
+        "des": data.deskripsi,
+        "doDate" : data.doDate,
+        "start" :"",
+        "end" :"",
+        "status" :data.status,
+        "priority" :data.priority
+      }
+      // console.log("Date",payload)
+      if (isEdit) {
+          payload.id=recordForEdit.id
+          await API.postUpdateTodo(payload)
+          .then( result =>{
+              dispatch(setTodoDatas(1))
+          })
+          .catch(error => {
+              console.log(error)
+          })
+      } else {
+          await API.postAddTodo(payload)
+          .then( result =>{
+              dispatch(setTodoDatas(1))
+          })
+          .catch(error => {
+              console.log(error)
+          })
+      }
     };
+
+    const handleDelete = async id => {
+      let payload = {
+          "id": id
+      }
+      console.log("Id :",payload)
+      await API.deleteTodo(payload)
+      .then( result =>{
+          console.log("Delete :",result)
+          dispatch(setTodoDatas(1))
+      })
+      .catch(error => {
+          console.log(error)
+      })
+    }
   
       return (
         <Form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={3}>
-                <Grid item xs={12}>
+                <Grid item xs={12} >
                     <Input
                     ref={register}
                     id="title"
@@ -95,13 +110,15 @@ function TodoForm(props) {
                     ref={register}
                     id="deskripsi"
                     type="text"
+                    multiline
+                    rows={6}
                     label="Deskripsi"
                     name="deskripsi"
                     error={!!errors.deskripsi}
                     helperText={errors?.deskripsi?.message}
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <DatePicker
                     properties={properties}
                     field="doDate"
@@ -111,7 +128,7 @@ function TodoForm(props) {
                   />
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                 <Select
                   properties={properties}
                   field="project"
@@ -120,7 +137,7 @@ function TodoForm(props) {
                 ></Select>
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                 <Select
                   properties={properties}
                   field="priority"
@@ -129,16 +146,33 @@ function TodoForm(props) {
                 ></Select>
                 </Grid>
                 
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <Select
                     properties={properties}
                     field="status"
-                    label="Status"
+                    label="Status"                 
+                    fullWidth
                     options={stateData}
                   ></Select>
                 </Grid>
-                <Grid item xs={12}>
-                    <PrimaryButton>Next</PrimaryButton>
+                <Grid item xs={12} >
+                  <Grid
+                    container
+                    direction="row"
+                    justify="flex-end"
+                    alignItems="center"
+                  >
+                    {(isEdit ? 
+                    <PrimaryButton
+                      color="secondary"
+                      onClick={() => { handleDelete(recordForEdit.id) }}
+                    >Delete</PrimaryButton> : "")}
+                    
+                    <PrimaryButton
+                      type="submit"
+                      color="primary"
+                    >Save</PrimaryButton>
+                  </Grid>
                 </Grid>
             </Grid>
         

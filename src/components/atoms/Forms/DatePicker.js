@@ -24,6 +24,7 @@ export default function DatePicker({
         error={errors[field] && true}
         helperText={errors[field] && errors[field].message}
         name={field}
+        fullWidth
         id={field}
         label={label}
         locale="pt"

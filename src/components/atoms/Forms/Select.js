@@ -26,6 +26,7 @@ export default function SelectInput({
     <FormControl
       variant="outlined"
       margin="normal"
+      fullWidth
       error={errors[field] && true}
     >
       <InputLabel ref={inputLabel} id={field}>
