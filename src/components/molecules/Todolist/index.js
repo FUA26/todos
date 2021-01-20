@@ -26,6 +26,7 @@ const TodoList = (todo) => {
     const {UPDATE_DATA_FORM} = useSelector(state =>state.formTodoReducer)
     const [recordForEdit, setRecordForEdit] = useState(null)
     const handleChange = (item) => {
+        console.log("Item",item)
         setOpenPopup(true);
         setRecordForEdit({
             id: item.id,
@@ -33,7 +34,8 @@ const TodoList = (todo) => {
             deskripsi: item.des,
             project: item.id_project,
             priority: item.priority,
-            doDate: new Date(item.do_date).toLocaleDateString('en-GB'),
+            doDate: item.do_date,
+            status: item.status,
         })
       };
     

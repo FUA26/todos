@@ -2,9 +2,15 @@ const initialState ={
     isLogin: false,
     todoLogin:true,
     todoDatas:[],
-    projectList:[],
+    projectList:{},
     sidebarOpen:false,
-    userData:{}
+    userData:{},
+    stateData:[
+        { id: '1', title: 'Backlog' },
+        { id: '2', title: 'Todo' },
+        { id: '3', title: 'On Progress' },
+        { id: '4', title: 'Done' },
+    ]
   }
 
 const MainReducer = (state=initialState,action) =>{

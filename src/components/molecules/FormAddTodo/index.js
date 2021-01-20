@@ -8,7 +8,11 @@ import { PrimaryButton } from '../../atoms/Forms/PrimaryButton';
 import DatePicker  from '../../atoms/Forms/DatePicker';
 import { Grid } from '@material-ui/core';
 import  Select  from '../../atoms/Forms/Select';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import API from '../../../services';
+import { setTodoDatas } from '../../../config/redux/actions';
+
+import { format } from 'date-fns';
  
 
 const schema = yup.object().shape({
@@ -24,6 +28,9 @@ const schema = yup.object().shape({
 function TodoForm(props) {
     const { recordForEdit,isEdit } = props
     const {priority} = useSelector(state =>state.formTodoReducer)
+    const {projectList,stateData} = useSelector(state =>state.mainReducer)
+    const dispatch = useDispatch()
+    
     const { register, errors, handleSubmit } = useForm({
         defaultValues: recordForEdit,
         mode: "onBlur",
@@ -34,31 +41,50 @@ function TodoForm(props) {
         errors,
         schema,
       };
-    const toDay = new Date().toDateString()
+    const toDay = format(new Date(), "yyyy-MM-dd'T'HH:mm:ssxxx")
+    console.log(recordForEdit)
+    const onSubmit =async data => {
+        // console.log(data)
+        let payload = {
+          "projectID": data.project,
+          "title": data.title,
+          "des": data.deskripsi,
+          "doDate" : data.doDate,
+          "start" :"",
+          "end" :"",
+          "status" :data.status,
+          "priority" :data.priority
+        }
+        // console.log("Date",payload)
+        if (isEdit) {
+            payload.id=recordForEdit.id
+            await API.postUpdateTodo(payload)
+            .then( result =>{
+                dispatch(setTodoDatas(1))
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        } else {
+            await API.postAddTodo(payload)
+            .then( result =>{
+                dispatch(setTodoDatas(1))
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        }
+    };
   
-    // console.log(recordForEdit.doDate)
-      const onSubmit = data => {
-          console.log(data)
-        // let payload = {
-        //     "email": data.email,
-        //     "password": data.password,
-        // }
-        // let login = await dispatch(setLogin(payload)).catch(err => err)
-        // if (login) {
-        //     let { from } = location.state || { from: { pathname: "/" } };
-        //     history.replace(from);
-        // }
-      };
-    
       return (
         <Form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <Input
                     ref={register}
-                    id="v"
+                    id="title"
                     type="text"
-                    label="Email"
+                    label="Title"
                     name="title"
                     error={!!errors.title}
                     helperText={errors?.title?.message}
@@ -80,10 +106,20 @@ function TodoForm(props) {
                     properties={properties}
                     field="doDate"
                     label="Do Date"
-                    defaultValue= {isEdit? new Date(recordForEdit.doDate).toDateString() : toDay}
+                    defaultValue= {isEdit? recordForEdit.doDate : toDay}
+                    format= 'dd/MM/yyyy'
                   />
                 </Grid>
-                
+
+                <Grid item xs={6}>
+                <Select
+                  properties={properties}
+                  field="project"
+                  label="Projet"
+                  options={projectList}
+                ></Select>
+                </Grid>
+
                 <Grid item xs={6}>
                 <Select
                   properties={properties}
@@ -91,6 +127,15 @@ function TodoForm(props) {
                   label="priority"
                   options={priority}
                 ></Select>
+                </Grid>
+                
+                <Grid item xs={6}>
+                  <Select
+                    properties={properties}
+                    field="status"
+                    label="Status"
+                    options={stateData}
+                  ></Select>
                 </Grid>
                 <Grid item xs={12}>
                     <PrimaryButton>Next</PrimaryButton>

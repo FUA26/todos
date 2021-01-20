@@ -43,8 +43,8 @@ export default function SelectInput({
       >
         <option aria-label="empty-select-option" />
         {options.map(option => (
-          <option key={option.value} value={option.value}>
-            {option.label}
+          <option key={option.id} value={option.id}>
+            {option.title}
           </option>
         ))}
       </Select>

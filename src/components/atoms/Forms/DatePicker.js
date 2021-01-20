@@ -18,7 +18,6 @@ export default function DatePicker({
 }) {
   const { register, errors, clearError, schema } = properties;
   const [selectedDate, handleDateChange] = useState(defaultValue);
-  console.log("Date!!!!",selectedDate)
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <KeyboardDatePicker

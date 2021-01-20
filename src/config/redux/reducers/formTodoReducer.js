@@ -9,9 +9,9 @@ const initialState ={
     },
     isEdit:false,
     priority:[
-        { value: '0', label: 'Low' },
-        { value: '1', label: 'Normal' },
-        { value: '2', label: 'High' },
+        { id: '0', title: 'Low' },
+        { id: '1', title: 'Normal' },
+        { id: '2', title: 'High' },
     ]
   }
 
