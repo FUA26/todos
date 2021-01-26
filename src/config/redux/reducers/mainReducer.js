@@ -1,7 +1,7 @@
 const initialState ={
     isLogin: false,
     todoLogin:true,
-    todoDatas:[],
+    todoDatas:{},
     projectList:{},
     sidebarOpen:false,
     userData:{},

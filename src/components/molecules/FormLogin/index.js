@@ -62,7 +62,10 @@ function LoginForm(props) {
           helperText={errors?.password?.message}
         />
         
-        <PrimaryButton>Next</PrimaryButton>
+        <PrimaryButton
+        type="submit"
+        color="primary"
+        >Login</PrimaryButton>
       </Form>
       );
 }

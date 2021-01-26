@@ -1,5 +1,5 @@
 import { AES, enc } from 'crypto-js';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { 
     Route,

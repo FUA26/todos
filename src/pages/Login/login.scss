@@ -20,9 +20,18 @@
 .login__right{
     width: 65%;
     height: 100vh;
-    background-color: lightskyblue;
+    background-color: #E6F2FF;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
+.login__right .content{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+
+    img{
+        width: 80%;
+    }
+}

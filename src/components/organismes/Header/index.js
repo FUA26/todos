@@ -6,7 +6,7 @@ import React, { useEffect } from 'react'
 import Logo from '../../atoms/Logo';
 import { fullLogoAlt } from '../../../assets';
 import { useDispatch } from 'react-redux';
-import { setLogin, setLogout } from '../../../config/redux/actions/loginAction';
+import { setLogout } from '../../../config/redux/actions/loginAction';
 import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(() => ({

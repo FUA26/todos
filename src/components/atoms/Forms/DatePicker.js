@@ -16,7 +16,7 @@ export default function DatePicker({
   params,
   ...rest
 }) {
-  const { register, errors, clearError, schema } = properties;
+  const { register, errors,  schema } = properties;
   const [selectedDate, handleDateChange] = useState(defaultValue);
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>

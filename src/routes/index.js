@@ -1,5 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify-redux'
 import Dashboard from '../layout/Dashboard'
 import Login from '../pages/Login'
 import MainPage from '../pages/MainPage'
@@ -21,6 +22,8 @@ const Routes = () => {
                     </Dashboard>
                 </AuthenticationRoute>
             </Switch>
+            
+            <ToastContainer  />
         </Router>
     )
 }

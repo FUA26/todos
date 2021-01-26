@@ -15,7 +15,7 @@ const MainPage = () =>{
          dispatch(setTodoDatas(1))
          dispatch(setProjectList())
     }, [dispatch])
-    // console.log(todoDatas)
+    console.log(todoDatas)
     return (
         <div className="StageWrapper">
             {todoLogin ? 

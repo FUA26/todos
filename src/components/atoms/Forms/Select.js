@@ -14,7 +14,7 @@ export default function SelectInput({
   params,
   ...rest
 }) {
-  const { register, errors, clearError, schema } = properties;
+  const { register, errors } = properties;
 
   const inputLabel = React.useRef(null);
   const [labelWidth, setLabelWidth] = React.useState(0);

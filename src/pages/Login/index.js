@@ -1,9 +1,7 @@
 import React from 'react'
-import { fullLogo } from '../../assets'
+import { fullLogo, illus } from '../../assets'
 import Logo from '../../components/atoms/Logo'
 import LoginForm from '../../components/molecules/FormLogin'
-
-import { ToastContainer } from 'react-toastify-redux';
 import './login.scss'
 
 function Login() {
@@ -20,11 +18,11 @@ function Login() {
                 </div>
             </div>
             <div className="login__right">
-                {/* <SliderLogin></SliderLogin> */}
-                
+                <div className="content">
+                    <img src={illus} alt="ilustrasi"></img>
+                </div>
             </div>
             
-            <ToastContainer  />
         </div>
     )
 }

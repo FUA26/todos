@@ -11,6 +11,7 @@ import  Select  from '../../atoms/Forms/Select';
 import { useDispatch, useSelector } from 'react-redux';
 import API from '../../../services';
 import { setTodoDatas } from '../../../config/redux/actions';
+import { error, success } from 'react-toastify-redux'
 
 import { format } from 'date-fns';
  
@@ -59,8 +60,13 @@ function TodoForm(props) {
       if (isEdit) {
           payload.id=recordForEdit.id
           await API.postUpdateTodo(payload)
-          .then( result =>{
+          .then( async result =>{
+            if (result.code === "00") {
               dispatch(setTodoDatas(1))
+              await dispatch(success(result.message));
+            } else {
+              dispatch(error(result.message));
+            } 
           })
           .catch(error => {
               console.log(error)
@@ -68,7 +74,12 @@ function TodoForm(props) {
       } else {
           await API.postAddTodo(payload)
           .then( result =>{
+            if (result.code === "00") {
               dispatch(setTodoDatas(1))
+              dispatch(success(result.message));
+            } else {
+              dispatch(error(result.message));
+            } 
           })
           .catch(error => {
               console.log(error)

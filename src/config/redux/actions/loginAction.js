@@ -1,6 +1,6 @@
 import { AES } from "crypto-js";
 import API from "../../../services"
-import {dismiss, update, error, message, warning, success, info} from 'react-toastify-redux'
+import { error} from 'react-toastify-redux'
 
 export const setLogin1 =(payload) =>{
     return(dispatch)=>{

@@ -1,5 +1,5 @@
 import { Avatar, Box, Button,  Divider, Drawer, Hidden, Icon, List, ListItem, makeStyles, Typography } from '@material-ui/core'
-import React, { useEffect } from 'react'
+import React from 'react'
 import {  useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { setLogout } from '../../../config/redux/actions/loginAction';

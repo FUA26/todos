@@ -1,12 +1,13 @@
-import { Card, CardContent, makeStyles } from '@material-ui/core'
-import { MoreHoriz } from '@material-ui/icons';
+import { Box, Card, CardContent, makeStyles } from '@material-ui/core'
+import { ExpandLess, ExpandMore, Minimize, MoreHoriz } from '@material-ui/icons';
 import Skeleton from '@material-ui/lab/Skeleton';
-
-import React,{useState} from 'react'
+import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
+import React,{useEffect, useState} from 'react'
 import { useSelector } from 'react-redux';
 import Popup from '../../atoms/Popup';
 import TodoForm from '../FormAddTodo';
 import './todoList.scss'
+import { green } from '@material-ui/core/colors';
 
 
 const useStyles = makeStyles({
@@ -23,10 +24,9 @@ const TodoList = (todo) => {
     const classes = useStyles()
     const [openPopup, setOpenPopup] = useState(false)
     const {todoLogin} = useSelector(state =>state.mainReducer)
-    const {UPDATE_DATA_FORM} = useSelector(state =>state.formTodoReducer)
     const [recordForEdit, setRecordForEdit] = useState(null)
+    
     const handleChange = (item) => {
-        console.log("Item",item)
         setOpenPopup(true);
         setRecordForEdit({
             id: item.id,
@@ -38,7 +38,18 @@ const TodoList = (todo) => {
             status: item.status,
         })
       };
-    
+      console.log("todo",todo)
+      let prio = <ExpandMore className="low"></ExpandMore>
+      if (todo.data !== undefined) {
+        if (todo.data.priority === 1) {
+            prio = <RemoveRoundedIcon className="normal"></RemoveRoundedIcon>
+        } else if(todo.data.priority === 2) {
+            prio = <ExpandLess className="high"></ExpandLess>
+        }
+        else {
+            prio = <ExpandMore className="low"></ExpandMore>
+        }
+      }
     return (
         <div>
             {(todoLogin ? 
@@ -55,10 +66,17 @@ const TodoList = (todo) => {
                 <Card className={classes.card}>
                         <div className="card__content">
                             <div className="card__header">
-                                <p>{todo.data.title}</p>
-                                <MoreHoriz onClick={() => { handleChange(todo.data) }}></MoreHoriz>
+                                <Box>
+                                    {prio}
+                                </Box>
+                                <Box  flexGrow={1} alignItems="center">
+                                    <p>{todo.data.title}</p>
+
+                                </Box>
+                                <Box>
+                                    <MoreHoriz onClick={() => { handleChange(todo.data) }}></MoreHoriz>
+                                </Box>
                             </div>
-                            <p>{todo.data.des}</p>
                         </div>
                 </Card>
                 )}
